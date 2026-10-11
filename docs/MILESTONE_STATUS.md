@@ -14,14 +14,14 @@ This is a development branch. The default branch is not modified.
 - [x] Keep unknown .exfat / package files provisional; do not infer title or item kind from extension.
 - [x] Refuse to overwrite last-good index after an incomplete scan.
 - [x] Add standalone CMake build and host unit tests.
-- [ ] Confirm GitHub Actions host test passes.
+- [ ] Confirm GitHub Actions host test passes (no run/status is visible yet).
 - [ ] Test symlink, permission-denied, malformed-manifest, and cache-corruption cases.
 
 ## Milestone 3 — Source selection and NFS adapter
 - [ ] Integrate /hostapp auto-detection and folder-picker UI into the original PS5 Library app.
-- [ ] Define a source-provider interface that keeps local-folder and NFS traversal consistent.
+- [x] Define the source-config boundary and mounted-root contract; full provider interface still pending.
 - [ ] Confirm which existing PS5 NFS API/library is compatible with the actual payload runtime.
-- [ ] Add connection test, read-only browse, timeout, cancellation, and disconnect recovery.
+- [ ] Add NFS connection test, read-only browse, timeout, cancellation, and disconnect recovery.
 
 ## Milestone 4 — Game grouping and details
 - [ ] Group base game, DLC, and updates only using trusted manifest/title metadata.
@@ -37,4 +37,4 @@ This is a development branch. The default branch is not modified.
 - [ ] Do not advertise untested formats as mountable or installable.
 
 ## Current blocker
-The fork's README and docs are present, but the original application source and build files (including the expected root build file) were not found on this branch. The new index component is therefore an isolated host-testable library; it is not linked into the original PS5 UI or payload. A passing host test does not prove PS5 SDK compatibility or firmware 13.60 operation.
+The fork's README and docs are present, but the original application source and build files (including the expected root build file) were not found on this branch. The index and source-validation components are isolated host-testable code; they are not linked into the original PS5 UI or payload. A passing host test would not prove PS5 SDK compatibility or firmware 13.60 operation. The newly added CI workflow has not yet returned a run or status through the available GitHub status interface.
