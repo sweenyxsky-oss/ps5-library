@@ -47,6 +47,8 @@ int main() {
                 require(entry.confidence == Confidence::Manifest, "manifest confidence missing");
                 require(entry.items.size() == 1, "manifest item should be present");
                 require(entry.items[0].relative_path == "ManifestGame/base.pkg", "manifest path mismatch");
+                require(entry.items[0].size_known && entry.items[0].size_bytes == 3,
+                        "manifest item should inherit its actual local size");
                 require(entry.cover_path == "ManifestGame/cover.png", "cover path should be relative");
             }
         }
@@ -67,6 +69,12 @@ int main() {
         require(!save_index_atomic(index.string(), incomplete, "test-source", &error),
                 "incomplete scan must not replace cache");
         require(fs::file_size(index) == previous_bytes, "incomplete scan changed last-good cache");
+        write_file(temp / "Broken" / "game.json", "{ definitely not JSON");
+        const auto broken_scan = scan_local_root(temp.string());
+        require(!broken_scan.complete, "malformed manifest must mark scan incomplete");
+        require(!save_index_atomic(index.string(), broken_scan, "test-source", &error),
+                "malformed manifest scan must not replace cache");
+        require(fs::file_size(index) == previous_bytes, "malformed scan changed last-good cache");
         require(!scan_local_root((temp / "does-not-exist").string()).complete,
                 "nonexistent root must fail closed");
         fs::remove_all(temp, ec);
