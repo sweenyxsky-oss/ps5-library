@@ -8,7 +8,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Only the portable index component is built; the original PS5 app build is absent.
 FetchContent_Declare(nlohmann_json URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz DOWNLOAD_EXTRACT_TIMESTAMP TRUE)
 FetchContent_MakeAvailable(nlohmann_json)
-add_library(ps5_library_index src/library_index.cpp)
+add_library(ps5_library_index src/library_index.cpp src/library_source.cpp)
 target_include_directories(ps5_library_index PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 target_link_libraries(ps5_library_index PUBLIC nlohmann_json::nlohmann_json)
 if(BUILD_TESTING)
