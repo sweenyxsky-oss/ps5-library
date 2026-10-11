@@ -147,7 +147,7 @@ ScanResult scan_local_root(const std::string& root_text) {
 
     std::set<std::string> visited_manifests;
     std::set<std::string> grouped_directories;
-    fs::recursive_directory_iterator it(root, fs::directory_options::skip_permission_denied, ec), end;
+    fs::recursive_directory_iterator it(root, fs::directory_options::none, ec), end;
     if (ec) {
         result.error = "cannot enumerate selected root";
         return result;
@@ -176,11 +176,20 @@ ScanResult scan_local_root(const std::string& root_text) {
             entry.relative_directory = rel_dir;
             if (read_manifest(de.path(), root, &entry, &result.error)) {
                 entry.entry_id = rel_dir.empty() ? "." : rel_dir;
-                for (const auto& item : entry.items) {
+                for (auto& item : entry.items) {
                     const fs::path actual = root / item.relative_path;
-                    if (!fs::exists(actual, type_ec) || !fs::is_regular_file(actual, type_ec)) {
-                        // Preserve manifest items, but size is unknown if the path is missing.
+                    type_ec.clear();
+                    if (!fs::exists(actual, type_ec) || type_ec ||
+                        !fs::is_regular_file(actual, type_ec) || type_ec) {
+                        // Keep declared entries visible, but never invent their size.
                         continue;
+                    }
+                    if (!item.size_known) {
+                        const auto actual_size = fs::file_size(actual, type_ec);
+                        if (!type_ec) {
+                            item.size_bytes = actual_size;
+                            item.size_known = true;
+                        }
                     }
                 }
                 visited_manifests.insert(de.path().string());
@@ -192,7 +201,7 @@ ScanResult scan_local_root(const std::string& root_text) {
 
     // Add standalone candidate files not already covered by a game.json manifest.
     ec.clear();
-    fs::recursive_directory_iterator files(root, fs::directory_options::skip_permission_denied, ec);
+    fs::recursive_directory_iterator files(root, fs::directory_options::none, ec);
     for (; files != end; files.increment(ec)) {
         if (ec) { result.error = "one or more directories could not be scanned"; ec.clear(); continue; }
         const auto& de = *files;
