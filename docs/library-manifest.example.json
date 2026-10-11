@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "title_id": "PPSA00000",
+  "title": "Example Homebrew Title",
+  "region": "Unknown",
+  "cover": "cover.jpg",
+  "items": [
+    {
+      "kind": "game",
+      "path": "Game/example-game.exfat",
+      "format": "exfat-image",
+      "size_bytes": null
+    },
+    {
+      "kind": "dlc",
+      "path": "DLC/example-addon.pkg",
+      "format": "pkg",
+      "size_bytes": null
+    },
+    {
+      "kind": "update",
+      "path": "Updates/example-update.pkg",
+      "format": "pkg",
+      "size_bytes": null
+    }
+  ],
+  "notes": "Example only. Replace the title ID and paths with verified metadata for your own files."
+}
