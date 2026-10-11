@@ -1,6 +1,6 @@
 # Native PS5 TrueNAS Game Library — milestone tracker
 
-This is a development branch. The default branch is not modified. **Product direction: native PS5 application, not a browser-based UI.** The existing browser-based ps5-library is reference material only; do not treat it as the target application shell.
+This is a development branch. The default branch is not modified. **Product direction: native PS5 application, not a browser-based UI.** The existing browser-based ps5-library is reference material only; do not treat it as the target application shell. **Product direction: native PS5 application, not a browser-based UI.** The existing browser-based ps5-library is reference material only; do not treat it as the target application shell.
 
 ## Milestone 1 — Data contract and source configuration
 - [x] Document source model and /hostapp default probing behavior.
