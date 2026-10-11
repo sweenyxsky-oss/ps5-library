@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "active_source_id": "local-hostapp",
+  "sources": [
+    {
+      "id": "local-hostapp",
+      "type": "local",
+      "label": "PS5 hostapp",
+      "root": "/hostapp"
+    },
+    {
+      "id": "truenas-nfs",
+      "type": "nfs",
+      "label": "TrueNAS Game Library",
+      "server": "192.0.2.10",
+      "export_path": "/mnt/tank/games",
+      "nfs_version": "3",
+      "port": null
+    }
+  ],
+  "index": {
+    "schema_version": 1,
+    "refresh_mode": "incremental",
+    "retain_cache_when_offline": true
+  }
+}
