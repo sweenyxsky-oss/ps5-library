@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/ps5-library/library-manifest.schema.json",
+  "title": "PS5 Library Local Game Manifest",
+  "description": "Optional user-maintained manifest for identifying locally stored game, DLC, and update files. This schema does not assert that any format is installable on a given firmware.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "title", "items"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "title_id": {
+      "type": ["string", "null"],
+      "pattern": "^[A-Z0-9]{9}$",
+      "description": "Only populate when verified from trusted metadata; omit or set null otherwise."
+    },
+    "title": { "type": "string", "minLength": 1 },
+    "region": { "type": ["string", "null"] },
+    "cover": { "type": ["string", "null"] },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "path"],
+        "properties": {
+          "kind": { "enum": ["game", "dlc", "update", "unknown"] },
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "not": { "pattern": "^(?:/|[A-Za-z]:|\\\\)" },
+            "description": "Source-relative path; absolute paths are disallowed."
+          },
+          "format": { "type": ["string", "null"] },
+          "size_bytes": { "type": ["integer", "null"], "minimum": 0 }
+        }
+      }
+    },
+    "notes": { "type": ["string", "null"] }
+  }
+}
