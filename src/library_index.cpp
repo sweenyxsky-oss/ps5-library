@@ -257,12 +257,6 @@ bool save_index_atomic(const std::string& path, const ScanResult& result,
         std::error_code ec;
         fs::rename(temporary, target, ec);
         if (ec) {
-            // Some filesystems do not replace an existing target on rename.
-            fs::remove(target, ec);
-            ec.clear();
-            fs::rename(temporary, target, ec);
-        }
-        if (ec) {
             if (error) *error = "cannot atomically replace index: " + ec.message();
             return false;
         }
