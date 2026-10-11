@@ -1,4 +1,5 @@
 #include "library_index.hpp"
+#include "library_source.hpp"
 #include <filesystem>
 #include <fstream>
 #include <iostream>
